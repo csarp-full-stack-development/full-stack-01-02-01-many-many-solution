@@ -73,4 +73,12 @@ namespace Kreta.Backend.Repos.KretaInMemoryRepo
         {
         }
     }
+
+    public class SchoolClassSubjectsInMemoryRepo : SchoolClassSubjectsRepo<KretaInMemoryContext>
+    {
+        public SchoolClassSubjectsInMemoryRepo(IDbContextFactory<KretaInMemoryContext> dbContextFactory) : base(dbContextFactory)
+        {
+        }
+    }
+
 }

@@ -13,7 +13,7 @@ namespace Kreta.Shared.Extensions
                 SchoolClassId = subject.SchoolClassId,
                 SubjectId = subject.SubjectId,
                 NumberOfHours = subject.NumberOfHours,
-                TheHoursInOne= subject.TheHoursInOne,
+                IsTheHoursInOne= subject.IsTheHoursInOne,
             };
         }
 
@@ -25,7 +25,7 @@ namespace Kreta.Shared.Extensions
                 SchoolClassId = subject.SchoolClassId,
                 SubjectId = subject.SubjectId,
                 NumberOfHours = subject.NumberOfHours,
-                TheHoursInOne = subject.TheHoursInOne,
+                IsTheHoursInOne = subject.IsTheHoursInOne,
             };
         }
     }

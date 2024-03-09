@@ -8,7 +8,7 @@
             SchoolClassId = Guid.Empty;
             SubjectId = Guid.Empty;
             NumberOfHours = -1;
-            TheHoursInOne = false;
+            IsTheHoursInOne = false;
         }
 
         public SchoolClassSubjects(Guid id, Guid schoolClassId, Guid subjectId, int numberOfHours, bool theHoursInOne)
@@ -17,7 +17,7 @@
             SchoolClassId = schoolClassId;
             SubjectId = subjectId;
             NumberOfHours = numberOfHours;
-            TheHoursInOne = theHoursInOne;
+            IsTheHoursInOne = theHoursInOne;
         }
 
         public Guid Id { get; set; }
@@ -26,7 +26,7 @@
         public Guid SubjectId { get; set; }
         public virtual Subject? Subject { get; set; }
         public int NumberOfHours { get; set; }
-        public bool TheHoursInOne { get; set; }
+        public bool IsTheHoursInOne { get; set; }
         public bool HasId => Id != Guid.Empty;
     }
 }

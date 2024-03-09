@@ -7,6 +7,6 @@ namespace Kreta.Shared.Dtos
         public Guid SchoolClassId { get; set; }
         public Guid SubjectId { get; set; }
         public int NumberOfHours { get; set; }
-        public bool TheHoursInOne { get; set; }
+        public bool IsTheHoursInOne { get; set; }
     }
 }

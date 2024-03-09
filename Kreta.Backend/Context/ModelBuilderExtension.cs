@@ -402,6 +402,58 @@ namespace Kreta.Backend.Context
                 },
             };
 
+            List<SchoolClassSubjects> schoolClassSubjects = new List<SchoolClassSubjects>
+            {
+                new SchoolClassSubjects
+                {
+                    Id=Guid.NewGuid(),
+                    SchoolClassId=schoolClassId1,
+                    SubjectId=subjectId1,
+                    NumberOfHours=3,
+                    IsTheHoursInOne=false,
+                },
+                new SchoolClassSubjects
+                {
+                    Id=Guid.NewGuid(),
+                    SchoolClassId=schoolClassId1,
+                    SubjectId=subjectId3,
+                    NumberOfHours=1,
+                    IsTheHoursInOne=true,
+                },
+                new SchoolClassSubjects
+                {
+                    Id=Guid.NewGuid(),
+                    SchoolClassId=schoolClassId2,
+                    SubjectId=subjectId2,
+                    NumberOfHours=2,
+                    IsTheHoursInOne=false,
+                },
+                new SchoolClassSubjects
+                {
+                    Id=Guid.NewGuid(),
+                    SchoolClassId=schoolClassId3,
+                    SubjectId=subjectId1,
+                    NumberOfHours=2,
+                    IsTheHoursInOne=false,
+                },
+                new SchoolClassSubjects
+                {
+                    Id=Guid.NewGuid(),
+                    SchoolClassId=schoolClassId3,
+                    SubjectId=subjectId2,
+                    NumberOfHours=2,
+                    IsTheHoursInOne=true,
+                },
+                new SchoolClassSubjects
+                {
+                    Id=Guid.NewGuid(),
+                    SchoolClassId=schoolClassId3,
+                    SubjectId=subjectId3,
+                    NumberOfHours=4,
+                    IsTheHoursInOne=false,
+                }
+            };
+
             modelBuilder.Entity<EducationLevel>().HasData(educationLevels);
             modelBuilder.Entity<TypeOfEducation>().HasData(typeOfEducations);
             modelBuilder.Entity<SubjectType>().HasData(subjectTypes);
@@ -412,7 +464,8 @@ namespace Kreta.Backend.Context
             modelBuilder.Entity<Parent>().HasData(parents);
             modelBuilder.Entity<SchoolClass>().HasData(schoolClasses);
             modelBuilder.Entity<Subject>().HasData(subjects);
-            modelBuilder.Entity<PublicSpace>().HasData(publicSpaces); 
+            modelBuilder.Entity<PublicSpace>().HasData(publicSpaces);
+            modelBuilder.Entity<SchoolClassSubjects>().HasData(schoolClassSubjects);
         }
     }
 }
