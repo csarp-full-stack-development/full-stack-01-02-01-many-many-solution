@@ -5,27 +5,31 @@ namespace Kreta.Shared.Extensions
 {
     public static class SchoolClassSubjectsExtension
     {
-        public static SchoolClassSubjects ToModel(this SchoolClassSubjectsDto subject)
+        public static SchoolClassSubjects ToModel(this SchoolClassSubjectsDto dto)
         {
             return new SchoolClassSubjects
             {
-                Id= subject.Id,
-                SchoolClassId = subject.SchoolClassId,
-                SubjectId = subject.SubjectId,
-                NumberOfHours = subject.NumberOfHours,
-                IsTheHoursInOne= subject.IsTheHoursInOne,
+                Id= dto.Id,
+                SchoolClassId = dto.SchoolClassId,
+                SchoolClass = dto.SchoolClass,
+                SubjectId = dto.SubjectId,
+                Subject = dto.Subject,
+                NumberOfHours = dto.NumberOfHours,
+                IsTheHoursInOne= dto.IsTheHoursInOne,
             };
         }
 
-        public static SchoolClassSubjectsDto ToDto(this SchoolClassSubjects subject)
+        public static SchoolClassSubjectsDto ToDto(this SchoolClassSubjects model)
         {
             return new SchoolClassSubjectsDto
             {
-                Id = subject.Id,
-                SchoolClassId = subject.SchoolClassId,
-                SubjectId = subject.SubjectId,
-                NumberOfHours = subject.NumberOfHours,
-                IsTheHoursInOne = subject.IsTheHoursInOne,
+                Id = model.Id,
+                SchoolClassId = model.SchoolClassId,
+                SchoolClass = model.SchoolClass,
+                SubjectId = model.SubjectId,
+                Subject = model.Subject,
+                NumberOfHours = model.NumberOfHours,
+                IsTheHoursInOne = model.IsTheHoursInOne,
             };
         }
     }
