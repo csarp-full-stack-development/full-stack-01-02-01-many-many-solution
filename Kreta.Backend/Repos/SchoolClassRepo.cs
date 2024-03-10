@@ -14,7 +14,9 @@ namespace Kreta.Backend.Repos
         
         public IQueryable<SchoolClass> SelectSchoolClassesWithSubjects()
         {
-            return FindAll().Include(schoolClasses => schoolClasses.SchoolClassSubjects);
+            return FindAll()
+                .Include(schoolClasses => schoolClasses.SchoolClassSubjects)
+                .ThenInclude(schoolClassSubjects => schoolClassSubjects.Subject);
         }
     }
 }

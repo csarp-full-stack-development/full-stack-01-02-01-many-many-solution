@@ -1,5 +1,6 @@
 ﻿using Kreta.Shared.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace Kreta.Backend.Repos
 {
@@ -13,7 +14,9 @@ namespace Kreta.Backend.Repos
 
         public IQueryable<Subject> SelectSubjectsWithSchoolClasses()
         {
-            return FindAll().Include(subject => subject.SchoolClasses);
+            return FindAll()
+                .Include(subject => subject.SchoolClasses)
+                .ThenInclude(schoolClassSubject => schoolClassSubject.SchoolClass);
         }
     }
 }
