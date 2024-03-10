@@ -28,5 +28,11 @@
         public int NumberOfHours { get; set; }
         public bool IsTheHoursInOne { get; set; }
         public bool HasId => Id != Guid.Empty;
+
+        public override string ToString()
+        {
+            string theHoursInOne = IsTheHoursInOne ? "egytentartva" : "";
+            return $"{SchoolClass} {Subject} {NumberOfHours} {theHoursInOne}";
+        }
     }
 }

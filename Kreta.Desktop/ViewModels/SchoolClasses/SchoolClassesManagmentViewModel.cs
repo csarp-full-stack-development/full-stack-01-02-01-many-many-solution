@@ -38,7 +38,7 @@ namespace Kreta.Desktop.ViewModels.SchoolClasses
         {
             if (_schoolClassService!=null)
             {
-                List<SchoolClass> schoolClasses = await _schoolClassService.SelectAllAsync();
+                List<SchoolClass> schoolClasses = await _schoolClassService.SelectAllWithSubjectsAsync();
                 SchoolClasses =new ObservableCollection<SchoolClass>(schoolClasses);
             }
         }
