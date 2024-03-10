@@ -34,7 +34,7 @@ namespace Kreta.Shared.Models
         public int YearOfEnrolment {  get; set; }
         public bool IsArchived { get; set; }
         // N:M
-        public virtual ICollection<SchoolClassSubjects>? Subjects { get; set; }
+        public virtual ICollection<SchoolClassSubjects>? SchoolClassSubjects { get; set; }
 
         public override string ToString()
         {

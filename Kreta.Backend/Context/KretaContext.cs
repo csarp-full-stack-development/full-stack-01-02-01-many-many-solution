@@ -25,7 +25,7 @@ namespace Kreta.Backend.Context
         {
             modelBuilder.Entity<SchoolClassSubjects>()
                 .HasOne(schoolClassSubject => schoolClassSubject.SchoolClass)
-                .WithMany(subject => subject.Subjects)
+                .WithMany(subject => subject.SchoolClassSubjects)
                 .HasForeignKey(schoolClassSubject => schoolClassSubject.SchoolClassId)
                 .IsRequired(false);
 

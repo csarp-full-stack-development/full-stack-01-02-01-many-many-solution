@@ -11,5 +11,10 @@ namespace Kreta.Backend.Repos
         public SchoolClassRepo(IDbContextFactory<TDbContext> dbContextFactory) : base(dbContextFactory)
         {
         }
+        
+        public IQueryable<SchoolClass> SelectSchoolClassesWithSubjects()
+        {
+            return FindAll().Include(schoolClasses => schoolClasses.SchoolClassSubjects);
+        }
     }
 }
