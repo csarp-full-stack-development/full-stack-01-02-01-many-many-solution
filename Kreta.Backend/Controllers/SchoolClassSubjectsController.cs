@@ -2,8 +2,8 @@
 using Kreta.Shared.Assamblers;
 using Kreta.Shared.Dtos;
 using Kreta.Shared.Extensions;
-using Kreta.Shared.Models;
 using Kreta.Shared.Models.SchoolCitizens;
+using Kreta.Shared.Models.SwitchTable;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

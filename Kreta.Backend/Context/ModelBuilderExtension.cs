@@ -1,5 +1,6 @@
 ﻿using Kreta.Shared.Models;
 using Kreta.Shared.Models.SchoolCitizens;
+using Kreta.Shared.Models.SwitchTable;
 using Microsoft.EntityFrameworkCore;
 
 namespace Kreta.Backend.Context

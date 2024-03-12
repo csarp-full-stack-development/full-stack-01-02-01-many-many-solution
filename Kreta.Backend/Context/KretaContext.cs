@@ -1,5 +1,6 @@
 ﻿using Kreta.Shared.Models;
 using Kreta.Shared.Models.SchoolCitizens;
+using Kreta.Shared.Models.SwitchTable;
 using Microsoft.EntityFrameworkCore;
 
 namespace Kreta.Backend.Context
@@ -31,7 +32,7 @@ namespace Kreta.Backend.Context
 
             modelBuilder.Entity<SchoolClassSubjects>()
                 .HasOne(schoolClassSubjects => schoolClassSubjects.Subject)
-                .WithMany(schoolClass => schoolClass.SchoolClasses)
+                .WithMany(schoolClass => schoolClass.SchoolClassSubjects)
                 .HasForeignKey(schoolClassSubjects => schoolClassSubjects.SubjectId)
                 .IsRequired(false);
         }

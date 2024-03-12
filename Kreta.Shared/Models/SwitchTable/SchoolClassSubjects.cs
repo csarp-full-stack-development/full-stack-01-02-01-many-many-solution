@@ -1,4 +1,4 @@
-﻿namespace Kreta.Shared.Models
+﻿namespace Kreta.Shared.Models.SwitchTable
 {
     public class SchoolClassSubjects : IDbEntity<SchoolClassSubjects>
     {
@@ -28,11 +28,10 @@
         public int NumberOfHours { get; set; }
         public bool IsTheHoursInOne { get; set; }
         public bool HasId => Id != Guid.Empty;
-
         public override string ToString()
         {
-            string theHoursInOne = IsTheHoursInOne ? "egytentartva" : "";
-            return $"{SchoolClass} {Subject} {NumberOfHours} {theHoursInOne}";
+            string theHoursInOne = IsTheHoursInOne ? "egybentartva" : "";
+            return $"{SchoolClass} {Subject}\n Órák száma:{NumberOfHours}, {theHoursInOne}";
         }
     }
 }

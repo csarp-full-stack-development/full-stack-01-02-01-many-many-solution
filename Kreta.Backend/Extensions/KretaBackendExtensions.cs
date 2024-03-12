@@ -1,6 +1,7 @@
 ﻿using Kreta.Backend.Context;
 using Kreta.Backend.Repos;
 using Kreta.Backend.Repos.KretaInMemoryRepo;
+using Kreta.Backend.Repos.Managers;
 using Kreta.Shared.Assamblers;
 using Kreta.Shared.Models;
 using Microsoft.EntityFrameworkCore;
@@ -48,6 +49,8 @@ namespace Kreta.Backend.Extensions
             services.AddScoped<IPublicSpaceRepo,PublicScpaceInMemoryRepo>();
             services.AddScoped<ISchoolClassRepo, SchoolClassInMemoryRepo>();
             services.AddScoped<ISchoolClassSubjectsRepo, SchoolClassSubjectsInMemoryRepo>();
+
+            services.AddScoped<IRepositoryManager, RepositoryManager>();
         }
 
         public static void ConfigureAssamblers(this IServiceCollection services)

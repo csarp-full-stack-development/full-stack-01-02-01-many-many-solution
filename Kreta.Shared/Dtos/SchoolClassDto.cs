@@ -1,4 +1,5 @@
 ﻿using Kreta.Shared.Models;
+using Kreta.Shared.Models.SwitchTable;
 
 namespace Kreta.Shared.Dtos
 {
