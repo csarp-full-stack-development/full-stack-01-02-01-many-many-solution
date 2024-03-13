@@ -8,26 +8,26 @@ namespace Kreta.Backend.Services
 {
     public class SubjectManagmentService : ISubjectManagmentService
     {
-        private readonly IRepositoryManager _repositoryManager;
-        public SubjectManagmentService(IRepositoryManager repositoryManager)
+        private readonly IRepositoryManager? _repositoryManager;
+        public SubjectManagmentService(IRepositoryManager? repositoryManager)
         {
             _repositoryManager= repositoryManager;
         }
-        public IQueryable<SchoolClass> SelectSchoolClassWhereNotStudiedSubject(Guid subjectId)
+        public IQueryable<SchoolClass> SelectSchoolClassWhoNotStudiedSubject(Guid subjectId)
         {
-            Subject? subjecedSubject= (from subject in _repositoryManager.SubjectRepo?.FindAll()
-                                        where subject.Id == subjectId
-                                        select subject).FirstOrDefault();
-            //ICollection<SchoolClass> SchoolClassWhoStudy = subjecedSubject.SchoolClassSubjects;                                  
-            IQueryable<SchoolClass> result = from schoolClassSubjects in    _repositoryManager.SchoolClassSubjectsRepo.FindAll()
-                         where schoolClassSubjects.SubjectId == subjectId
-                         select schoolClassSubjects.SchoolClass;
+            if (_repositoryManager is not null && _repositoryManager.SchoolClassSubjectsRepo is not null)
+            {
 
-
-
-
+                /*Subject? selectedSubject= (from subject in _repositoryManager.SubjectRepo?.FindAll()
+                                            where subject.Id == subjectId
+                                            select subject).FirstOrDefault();*/
+                //ICollection<SchoolClass> SchoolClassWhoStudy = subjecedSubject.SchoolClassSubjects;                                  
+                IQueryable<SchoolClass> result = from schoolClassSubjects in _repositoryManager.SchoolClassSubjectsRepo.FindAll()
+                                                 where schoolClassSubjects.SubjectId == subjectId
+                                                 select schoolClassSubjects.SchoolClass;
+                return result;
+            }
             return new Collection<SchoolClass>().AsQueryable();
-
         }
     }
 }

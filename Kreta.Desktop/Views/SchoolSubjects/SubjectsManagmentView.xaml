@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Kreta.Desktop.Views.SchoolSubjects"
              xmlns:viewModels="clr-namespace:Kreta.Desktop.ViewModels.SchoolSubjects"
+             xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
              d:DataContext="{d:DesignInstance Type=viewModels:SubjectsManagmentViewModel, IsDesignTimeCreatable=True}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -62,8 +63,13 @@
         <ComboBox Grid.Row="6" Grid.Column="1" Margin="2 2 2 2"></ComboBox>
         <ListBox Grid.Row="8"  Grid.ColumnSpan="2" Margin="2 2 2 2"
                  ItemsSource="{Binding Subjects}"
-                 SelectedItem="{Binding SelectedSubject}"
-        />
+                 SelectedItem="{Binding SelectedSubject}">
+                 <behaviors:Interaction.Triggers>
+                    <behaviors:EventTrigger EventName="SelectionChanged">
+                        <behaviors:InvokeCommandAction Command="{Binding GetSchoolClassWhoNotStudiedSubjectCommand}" />
+                    </behaviors:EventTrigger>
+                </behaviors:Interaction.Triggers>
+        </ListBox>
         <Label Grid.Row="2" Grid.Column="2">Tantárgyat tanuló osztályok:</Label>
         <ListBox Grid.Row="3" Grid.RowSpan="3" Grid.Column="3"
                  ItemsSource="{Binding SelectedSubject.SchoolClassSubjects}">
@@ -75,5 +81,10 @@
             </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+        <Label Grid.Row="7" Grid.Column="3" VerticalAlignment="Bottom">Tanulmányi szinttel nem rendelkező diákok:</Label>
+        <ListBox Grid.Row="8" Grid.Column="3"
+                 Margin="10 2 10 10"
+                 ItemsSource="{Binding SchoolClassesWhoNotStudiedSubject}"
+        />
     </Grid>
 </UserControl>

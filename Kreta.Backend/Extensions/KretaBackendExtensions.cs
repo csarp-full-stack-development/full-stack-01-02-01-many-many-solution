@@ -2,6 +2,7 @@
 using Kreta.Backend.Repos;
 using Kreta.Backend.Repos.KretaInMemoryRepo;
 using Kreta.Backend.Repos.Managers;
+using Kreta.Backend.Services;
 using Kreta.Shared.Assamblers;
 using Kreta.Shared.Models;
 using Microsoft.EntityFrameworkCore;
@@ -36,7 +37,7 @@ namespace Kreta.Backend.Extensions
                 );
         }
 
-        public static void ConfigureRepoService(this IServiceCollection services)
+        public static void ConfigureRepoServices(this IServiceCollection services)
         {
             services.AddScoped<IStudentRepo, StudentInMemoryRepo>();
             services.AddScoped<IGradeRepo, GradeInMemoryRepo>();
@@ -67,6 +68,11 @@ namespace Kreta.Backend.Extensions
             services.AddScoped<SchoolClassAssambler>();
             services.AddScoped<TypeOfEducationAssambler>();
             services.AddScoped<SchoolClassSubjectsAssambler>();
+        }
+
+        public static void ConfigureServices(this IServiceCollection services)
+        {
+            services.AddScoped<ISubjectManagmentService,SubjectManagmentService>();
         }
     }
 }

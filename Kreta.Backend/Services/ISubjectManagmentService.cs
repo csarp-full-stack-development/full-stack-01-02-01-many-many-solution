@@ -4,6 +4,6 @@ namespace Kreta.Backend.Services
 {
     public interface ISubjectManagmentService
     {
-        public IQueryable<SchoolClass> SelectSchoolClassWhereNotStudiedSubject(Guid subjectId);
+        public IQueryable<SchoolClass> SelectSchoolClassWhoNotStudiedSubject(Guid subjectId);
     }
 }
