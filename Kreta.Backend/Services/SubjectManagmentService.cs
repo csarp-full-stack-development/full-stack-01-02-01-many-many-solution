@@ -1,4 +1,5 @@
 ﻿using Kreta.Backend.Repos.Managers;
+using Kreta.Shared.Comparer;
 using Kreta.Shared.Models;
 using Kreta.Shared.Models.SwitchTable;
 using System.Collections.ObjectModel;
@@ -15,17 +16,49 @@ namespace Kreta.Backend.Services
         }
         public IQueryable<SchoolClass> SelectSchoolClassWhoNotStudiedSubject(Guid subjectId)
         {
-            if (_repositoryManager is not null && _repositoryManager.SchoolClassSubjectsRepo is not null)
+            if (_repositoryManager is not null && _repositoryManager.SchoolClassSubjectsRepo is not null && _repositoryManager.SchoolClassRepo is not null)
             {
 
-                /*Subject? selectedSubject= (from subject in _repositoryManager.SubjectRepo?.FindAll()
-                                            where subject.Id == subjectId
-                                            select subject).FirstOrDefault();*/
-                //ICollection<SchoolClass> SchoolClassWhoStudy = subjecedSubject.SchoolClassSubjects;                                  
-                IQueryable<SchoolClass> result = from schoolClassSubjects in _repositoryManager.SchoolClassSubjectsRepo.FindAll()
-                                                 where schoolClassSubjects.SubjectId == subjectId
-                                                 select schoolClassSubjects.SchoolClass;
-                return result;
+                try
+                {
+                    IQueryable<SchoolClass> schoolClassWhoNotStudiedSubject =
+                        from schoolClassSubjects in _repositoryManager.SchoolClassSubjectsRepo.FindAll()
+                        where schoolClassSubjects.SubjectId == subjectId
+                        select schoolClassSubjects.SchoolClass;
+
+                    List<SchoolClass> h1 = schoolClassWhoNotStudiedSubject.ToList();
+                    List<SchoolClass> h2 = _repositoryManager.SchoolClassRepo.FindAll().ToList();
+
+                    IQueryable<SchoolClass> result = _repositoryManager
+                        .SchoolClassRepo
+                        .FindAll()
+                        .Except(schoolClassWhoNotStudiedSubject, new SchoolClassComparer());
+
+                    //List<SchoolClass> except = result.ToList();
+
+                    var result2 = _repositoryManager
+                        .SchoolClassRepo
+                        .FindAll()
+                        .Where(schoolClass => schoolClassWhoNotStudiedSubject.All(schoolClass2 => schoolClass2.Id != schoolClass.Id));
+                    List<SchoolClass> except = result2.ToList();
+
+                    return result2;
+
+
+                    /*return _repositoryManager
+                        .SchoolClassRepo
+                        .FindAll()
+                        .Except(schoolClassWhoNotStudiedSubject, new SchoolClassComparer());*/
+
+
+                   
+
+                    //return schoolClassWhoNotStudiedSubject;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
             }
             return new Collection<SchoolClass>().AsQueryable();
         }

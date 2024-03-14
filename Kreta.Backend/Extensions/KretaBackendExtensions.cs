@@ -2,6 +2,7 @@
 using Kreta.Backend.Repos;
 using Kreta.Backend.Repos.KretaInMemoryRepo;
 using Kreta.Backend.Repos.Managers;
+using Kreta.Backend.Repos.SwitchTables;
 using Kreta.Backend.Services;
 using Kreta.Shared.Assamblers;
 using Kreta.Shared.Models;
@@ -29,27 +30,49 @@ namespace Kreta.Backend.Extensions
         public static void ConfigureInMemoryContext(this IServiceCollection services)
         {
             string dbName = "Kreta" + Guid.NewGuid();
+            services.AddDbContext<KretaContext>(
+                  options => options.UseInMemoryDatabase(databaseName: dbName)
+            );
+            services.AddDbContext<KretaInMemoryContext>(
+                options => options.UseInMemoryDatabase(databaseName: dbName)
+            );
             /*services.AddDbContextFactory<KretaContext>(
                 options => options.UseInMemoryDatabase(databaseName: dbName)
                 );*/
-            services.AddDbContextFactory<KretaInMemoryContext>(
+            /*
+              services.AddDbContextFactory<KretaInMemoryContext>(
                 options => options.UseInMemoryDatabase(databaseName: dbName)
-                );
+                );*/
         }
 
         public static void ConfigureRepoServices(this IServiceCollection services)
         {
-            services.AddScoped<IStudentRepo, StudentInMemoryRepo>();
-            services.AddScoped<IGradeRepo, GradeInMemoryRepo>();
-            services.AddScoped<IParentRepo, ParentInMemoryRepo>();
-            services.AddScoped<ITeacherRepo, TeacherInMemoryRepo>();
-            services.AddScoped<ISubjectRepo, SubjectInMemoryRepo>();
-            services.AddScoped<ISubjectRepo, SubjectInMemoryRepo>();
-            services.AddScoped<IEducationLevelRepo, EducationLevelInMemoryRepo>();
-            services.AddScoped<IAddressRepo, AddressInMemoryRepo>();
-            services.AddScoped<IPublicSpaceRepo,PublicScpaceInMemoryRepo>();
-            services.AddScoped<ISchoolClassRepo, SchoolClassInMemoryRepo>();
-            services.AddScoped<ISchoolClassSubjectsRepo, SchoolClassSubjectsInMemoryRepo>();
+            if (true)
+            {
+                //services.AddScoped<IStudentRepo, StudentInMemoryRepo>();
+                //services.AddScoped<IGradeRepo, GradeInMemoryRepo>();
+                //services.AddScoped<IParentRepo, ParentInMemoryRepo>();
+                //services.AddScoped<ITeacherRepo, TeacherInMemoryRepo>();
+                services.AddScoped<ISubjectRepo, SubjectRepo2>();
+                //services.AddScoped<IEducationLevelRepo, EducationLevelInMemoryRepo>();
+                //services.AddScoped<IAddressRepo, AddressInMemoryRepo>();
+                //services.AddScoped<IPublicSpaceRepo,PublicScpaceInMemoryRepo>();
+                services.AddScoped<ISchoolClassRepo, SchoolClassRepo2>();
+                services.AddScoped<ISchoolClassSubjectsRepo, SchoolClassSubjectsRepo2>();
+            }
+            else
+            {
+                services.AddScoped<IStudentRepo, StudentInMemoryRepo>();
+                services.AddScoped<IGradeRepo, GradeInMemoryRepo>();
+                services.AddScoped<IParentRepo, ParentInMemoryRepo>();
+                services.AddScoped<ITeacherRepo, TeacherInMemoryRepo>();
+                services.AddScoped<ISubjectRepo, SubjectInMemoryRepo>();
+                services.AddScoped<IEducationLevelRepo, EducationLevelInMemoryRepo>();
+                services.AddScoped<IAddressRepo, AddressInMemoryRepo>();
+                services.AddScoped<IPublicSpaceRepo,PublicScpaceInMemoryRepo>();
+                services.AddScoped<ISchoolClassRepo, SchoolClassInMemoryRepo>();
+                services.AddScoped<ISchoolClassSubjectsRepo, SchoolClassSubjectsInMemoryRepo>();
+            }
 
             services.AddScoped<IRepositoryManager, RepositoryManager>();
         }
