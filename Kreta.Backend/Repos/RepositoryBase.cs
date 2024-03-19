@@ -1,4 +1,5 @@
-﻿using Kreta.Shared.Models;
+﻿using Kreta.Backend.Context;
+using Kreta.Shared.Models;
 using Kreta.Shared.Responses;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
@@ -6,20 +7,15 @@ using System.Linq.Expressions;
 namespace Kreta.Backend.Repos
 {
     public abstract class RepositoryBase<TDbContext, TEntity> : IRepositoryBase<TEntity>
-        where TDbContext : DbContext
+        where TDbContext : KretaContext
         where TEntity : class, IDbEntity<TEntity>, new()
     {
-        private readonly IDbContextFactory<TDbContext> _dbContextFactory;
-        private readonly DbContext _dbContext;
+        private readonly TDbContext _dbContext;
         private readonly DbSet<TEntity>? _dbSet;
 
-        public RepositoryBase(IDbContextFactory<TDbContext> dbContextFactory)
+        public RepositoryBase()
         {
-            _dbContextFactory = dbContextFactory;
-            TDbContext dbContext = _dbContextFactory.CreateDbContext();
-            _dbContext = dbContext;
-            // Itt megkapjuk az adatábzis táblát
-            _dbSet = dbContext.Set<TEntity>();
+            _dbSet = _dbContext?.Set<TEntity>() ?? throw new ArgumentException($"A {nameof(TEntity)} adatbázis tábla nem elérhető!");            
         }
         public IQueryable<TEntity> FindAll()
         {
