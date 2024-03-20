@@ -7,14 +7,15 @@ using System.Linq.Expressions;
 namespace Kreta.Backend.Repos
 {
     public abstract class RepositoryBase<TDbContext, TEntity> : IRepositoryBase<TEntity>
-        where TDbContext : KretaContext
+        where TDbContext : DbContext
         where TEntity : class, IDbEntity<TEntity>, new()
     {
-        private readonly TDbContext _dbContext;
+        private readonly TDbContext? _dbContext;
         private readonly DbSet<TEntity>? _dbSet;
 
-        public RepositoryBase()
+        public RepositoryBase(TDbContext? dbContext)
         {
+            _dbContext=dbContext;
             _dbSet = _dbContext?.Set<TEntity>() ?? throw new ArgumentException($"A {nameof(TEntity)} adatbázis tábla nem elérhető!");            
         }
         public IQueryable<TEntity> FindAll()
@@ -38,6 +39,8 @@ namespace Kreta.Backend.Repos
             ControllerResponse response = new ();
             try
             {
+                if (_dbContext is null)
+                    return new ControllerResponse($"A {nameof(TEntity)} adatbázis tábla nem elérhető!");              
                 _dbContext.ChangeTracker.Clear();
                 _dbContext.Entry(entity).State = EntityState.Modified;
                 await _dbContext.SaveChangesAsync();
@@ -69,6 +72,8 @@ namespace Kreta.Backend.Repos
                 {
                     if (entityToDelete is not null)
                     {
+                        if (_dbContext is null)
+                            return new ControllerResponse($"A {nameof(TEntity)} adatbázis tábla nem elérhető!");
                         _dbContext.ChangeTracker.Clear();
                         _dbContext.Entry(entityToDelete).State = EntityState.Deleted;
                         await _dbContext.SaveChangesAsync();
@@ -97,6 +102,8 @@ namespace Kreta.Backend.Repos
                 try
                 {
                     _dbSet.Add(entity);
+                    if (_dbContext is null)
+                        return new ControllerResponse($"A {nameof(TEntity)} adatbázis tábla nem elérhető!");
                     await _dbContext.SaveChangesAsync();
                 }
                 catch (Exception e)

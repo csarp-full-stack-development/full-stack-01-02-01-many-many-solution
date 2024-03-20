@@ -4,5 +4,9 @@
     {
         public bool IsSuccess => !HasError;
         public ControllerResponse() : base() { }
+        public ControllerResponse(string errorString) : base() 
+        {
+            Error=errorString;
+        }
     }
 }

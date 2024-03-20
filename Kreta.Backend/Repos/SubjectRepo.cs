@@ -8,6 +8,10 @@ namespace Kreta.Backend.Repos
     public class SubjectRepo<TDbContext> : RepositoryBase<TDbContext, Subject>, ISubjectRepo
         where TDbContext : KretaContext
     {
+        public SubjectRepo(TDbContext? dbContext) : base(dbContext)
+        {
+        }
+
         public IQueryable<Subject> SelectSubjectsWithSchoolClasses()
         {
             return FindAll()

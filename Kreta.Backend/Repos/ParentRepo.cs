@@ -6,5 +6,8 @@ namespace Kreta.Backend.Repos
     public class ParentRepo<TDbContext> : RepositoryBase<TDbContext, Parent>, IParentRepo
         where TDbContext : KretaContext
     {
+        public ParentRepo(TDbContext? dbContext) : base(dbContext)
+        {
+        }
     }
 }

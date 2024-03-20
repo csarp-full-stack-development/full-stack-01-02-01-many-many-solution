@@ -6,5 +6,8 @@ namespace Kreta.Backend.Repos
     public class TeacherRepo<TDbContext> : RepositoryBase<TDbContext, Teacher>, ITeacherRepo
         where TDbContext : KretaContext
     {
+        public TeacherRepo(TDbContext? dbContext) : base(dbContext)
+        {
+        }
     }
 }

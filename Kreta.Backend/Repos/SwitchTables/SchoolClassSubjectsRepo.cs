@@ -1,13 +1,13 @@
-﻿using Kreta.Shared.Models.SchoolCitizens;
+﻿using Kreta.Backend.Context;
 using Kreta.Shared.Models.SwitchTable;
 using Microsoft.EntityFrameworkCore;
 
 namespace Kreta.Backend.Repos.SwitchTables
 {
     public class SchoolClassSubjectsRepo<TDbContext> : RepositoryBase<TDbContext, SchoolClassSubjects>, ISchoolClassSubjectsRepo
-        where TDbContext : DbContext
+        where TDbContext : KretaContext
     {
-        public SchoolClassSubjectsRepo(IDbContextFactory<TDbContext> dbContextFactory) : base(dbContextFactory)
+        public SchoolClassSubjectsRepo(TDbContext? dbContext) : base(dbContext)
         {
         }
 

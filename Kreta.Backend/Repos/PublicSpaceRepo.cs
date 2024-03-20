@@ -6,5 +6,8 @@ namespace Kreta.Backend.Repos
     public class PublicSpaceRepo<TDbContext> : RepositoryBase<TDbContext, PublicSpace>, IPublicSpaceRepo
         where TDbContext : KretaContext
     {
+        public PublicSpaceRepo(TDbContext? dbContext) : base(dbContext)
+        {
+        }
     }
 }

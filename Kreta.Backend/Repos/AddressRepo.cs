@@ -6,5 +6,8 @@ namespace Kreta.Backend.Repos
     public class AddressRepo<TDbContext> : RepositoryBase<TDbContext, Address>, IAddressRepo
         where TDbContext : KretaContext
     {
+        public AddressRepo(TDbContext? dbContext) : base(dbContext)
+        {
+        }
     }
 }
