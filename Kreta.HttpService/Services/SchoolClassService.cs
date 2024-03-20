@@ -12,7 +12,7 @@ namespace Kreta.HttpService.Services
         {
         }
 
-        public async Task<List<SchoolClass>> SelectAllWithSubjectsAsync()
+        public async Task<List<SchoolClass>> SelectAllSchoolClassWithSubjectsAsync()
         {
             if (_httpClient is not null)
             {

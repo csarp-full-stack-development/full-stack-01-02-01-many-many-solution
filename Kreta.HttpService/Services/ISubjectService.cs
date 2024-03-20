@@ -4,6 +4,6 @@ namespace Kreta.HttpService.Services
 {
     public interface ISubjectService : IBaseService<Subject>
     {
-        public Task<List<Subject>> SelectAllWithSchoolClassAsync();
+        public Task<List<Subject>> SelectAllSubjectWithSchoolClassAsync();
     }
 }
