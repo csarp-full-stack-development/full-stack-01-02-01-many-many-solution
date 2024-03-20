@@ -1,13 +1,10 @@
-﻿using Kreta.Shared.Models.SchoolCitizens;
-using Microsoft.EntityFrameworkCore;
+﻿using Kreta.Backend.Context;
+using Kreta.Shared.Models.SchoolCitizens;
 
 namespace Kreta.Backend.Repos
 {
     public class TeacherRepo<TDbContext> : RepositoryBase<TDbContext, Teacher>, ITeacherRepo
-        where TDbContext : DbContext
+        where TDbContext : KretaContext
     {
-        public TeacherRepo(IDbContextFactory<TDbContext> dbContextFactory) : base(dbContextFactory)
-        {
-        }
     }
 }

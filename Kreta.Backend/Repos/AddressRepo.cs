@@ -1,13 +1,10 @@
-﻿using Kreta.Shared.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Kreta.Backend.Context;
+using Kreta.Shared.Models;
 
 namespace Kreta.Backend.Repos
 {
     public class AddressRepo<TDbContext> : RepositoryBase<TDbContext, Address>, IAddressRepo
-        where TDbContext : DbContext
+        where TDbContext : KretaContext
     {
-        public AddressRepo(IDbContextFactory<TDbContext> dbContextFactory) : base(dbContextFactory)
-        {
-        }
     }
 }

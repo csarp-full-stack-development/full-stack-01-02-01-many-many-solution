@@ -1,17 +1,13 @@
-﻿using Kreta.Shared.Models;
+﻿using Kreta.Backend.Context;
+using Kreta.Shared.Models;
 using Microsoft.EntityFrameworkCore;
 
 
 namespace Kreta.Backend.Repos
 {
     public class SubjectRepo<TDbContext> : RepositoryBase<TDbContext, Subject>, ISubjectRepo
-        where TDbContext : DbContext
+        where TDbContext : KretaContext
     {
-        public SubjectRepo(IDbContextFactory<TDbContext> dbContextFactory) : base(dbContextFactory)
-        {
-
-        }
-
         public IQueryable<Subject> SelectSubjectsWithSchoolClasses()
         {
             return FindAll()

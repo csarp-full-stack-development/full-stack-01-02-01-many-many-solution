@@ -1,13 +1,10 @@
-﻿using Kreta.Shared.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Kreta.Backend.Context;
+using Kreta.Shared.Models;
 
 namespace Kreta.Backend.Repos
 {
     public class SubjectTypeRepo<TDbContext> : RepositoryBase<TDbContext, SubjectType>, ISubjectType
-        where TDbContext : DbContext
+        where TDbContext : KretaContext
     {
-        public SubjectTypeRepo(IDbContextFactory<TDbContext> dbContextFactory) : base(dbContextFactory)
-        {
-        }
     }
 }

@@ -1,13 +1,10 @@
-﻿using Kreta.Shared.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Kreta.Backend.Context;
+using Kreta.Shared.Models;
 
 namespace Kreta.Backend.Repos
 {
     public class PublicSpaceRepo<TDbContext> : RepositoryBase<TDbContext, PublicSpace>, IPublicSpaceRepo
-        where TDbContext : DbContext
+        where TDbContext : KretaContext
     {
-        public PublicSpaceRepo(IDbContextFactory<TDbContext> dbContextFactory) : base(dbContextFactory)
-        {
-        }
     }
 }
