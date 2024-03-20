@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Kreta.Desktop.ViewModels.Base;
 using Kreta.HttpService.Services;
 using Kreta.Shared.Models;
@@ -12,7 +13,7 @@ namespace Kreta.Desktop.ViewModels.SchoolClasses
     public partial class SchoolClassesManagmentViewModel : BaseViewModel
     {
         private ISchoolClassService? _schoolClassService;
-        public string Title { get; set; } = "Osztályok kezelése";
+        private ISubjectService? _subjectService { get; set; }
         
         [ObservableProperty]
         private SchoolClass _selectedSchoolClass = new SchoolClass();
@@ -20,13 +21,19 @@ namespace Kreta.Desktop.ViewModels.SchoolClasses
         [ObservableProperty]
         private ObservableCollection<SchoolClass> _schoolClasses = new ObservableCollection<SchoolClass>();
 
+        [ObservableProperty]
+        private ObservableCollection<Subject> _subjectWhoNotStudySchoolClass = new ObservableCollection<Subject>();
         public SchoolClassesManagmentViewModel()
         {            
         }
-        public SchoolClassesManagmentViewModel(ISchoolClassService schoolClassService)
+        public SchoolClassesManagmentViewModel(ISchoolClassService schoolClassService,
+                                               ISubjectService subjectService)
         {
             _schoolClassService = schoolClassService;
+            _subjectService = subjectService;
         }
+
+        public string Title { get; set; } = "Osztályok kezelése";
 
         public override async Task InitializeAsync()        
         {
@@ -34,11 +41,21 @@ namespace Kreta.Desktop.ViewModels.SchoolClasses
             await base.InitializeAsync();
         }
 
+        [RelayCommand]
+        private async Task GetSubjectsWhoNotStudySchoolClass()
+        {
+            if (_subjectService is not null && SelectedSchoolClass.HasId)
+            {
+                List<Subject> subjects = await _subjectService.GetSubjectWhoNotStudySchoolClass(SelectedSchoolClass.Id);
+                SubjectWhoNotStudySchoolClass = new ObservableCollection<Subject>(subjects);
+            }
+        }
+
         private async Task UpdateView()
         {
             if (_schoolClassService!=null)
             {
-                List<SchoolClass> schoolClasses = await _schoolClassService.SelectAllSchoolClassWithSubjectsAsync();
+                List<SchoolClass> schoolClasses = await _schoolClassService.GetAllSchoolClassWithSubjectsAsync();
                 SchoolClasses =new ObservableCollection<SchoolClass>(schoolClasses);
             }
         }

@@ -11,8 +11,6 @@ namespace Kreta.Desktop.ViewModels.SchoolSubjects
 {
     public partial class SubjectsManagmentViewModel : BaseViewModel
     {
-        public string Title { get; set; } = "Tantárgyak kezelése";
-
         private ISubjectService? _subjectService { get; set; }
         private ISchoolClassService? _schoolClassService { get; set; }
 
@@ -23,11 +21,13 @@ namespace Kreta.Desktop.ViewModels.SchoolSubjects
         private ObservableCollection<Subject> _subjects = new ObservableCollection<Subject>();
 
         [ObservableProperty]
-        private ObservableCollection<SchoolClass> _schoolClassesWhoNotStudiedSubject = new ObservableCollection<SchoolClass>();
+        private ObservableCollection<SchoolClass> _schoolClassesWhoNotStudySubject = new ObservableCollection<SchoolClass>();
 
         public SubjectsManagmentViewModel()
         {
         }
+
+        public string Title { get; set; } = "Tantárgyak kezelése";
 
         public SubjectsManagmentViewModel(ISubjectService subjectService,
                                           ISchoolClassService schoolClassService)
@@ -43,12 +43,12 @@ namespace Kreta.Desktop.ViewModels.SchoolSubjects
         }
 
         [RelayCommand]
-        private async Task GetSchoolClassWhoNotStudiedSubject()
+        private async Task GetSchoolClassWhoNotStudySubject()
         {
             if (_schoolClassService is not null && SelectedSubject.HasId)
             {
-                List<SchoolClass> schoolClasses = await _schoolClassService.SelectSchoolClassWhoNotStudiedSubject(SelectedSubject.Id);
-                SchoolClassesWhoNotStudiedSubject = new ObservableCollection<SchoolClass>(schoolClasses);
+                List<SchoolClass> schoolClasses = await _schoolClassService.GetSchoolClassWhoNotStudySubject(SelectedSubject.Id);
+                SchoolClassesWhoNotStudySubject = new ObservableCollection<SchoolClass>(schoolClasses);
             }
         }
 
@@ -56,7 +56,7 @@ namespace Kreta.Desktop.ViewModels.SchoolSubjects
         {
             if (_subjectService!= null)
             {
-                List<Subject> subjects= await _subjectService.SelectAllSubjectWithSchoolClassAsync();
+                List<Subject> subjects= await _subjectService.GetAllSubjectWithSchoolClassAsync();
                 Subjects= new ObservableCollection<Subject>(subjects);
             }
 

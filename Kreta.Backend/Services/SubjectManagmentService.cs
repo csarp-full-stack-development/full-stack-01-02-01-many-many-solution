@@ -25,7 +25,7 @@ namespace Kreta.Backend.Services
                         from schoolClassSubjects in _repositoryManager.SchoolClassSubjectsRepo.FindAll()
                         where schoolClassSubjects.SubjectId == subjectId
                         select schoolClassSubjects.SchoolClass;
-
+                    /*
                     List<SchoolClass> h1 = schoolClassWhoNotStudiedSubject.ToList();
                     List<SchoolClass> h2 = _repositoryManager.SchoolClassRepo.FindAll().ToList();
 
@@ -42,13 +42,13 @@ namespace Kreta.Backend.Services
                         .Where(schoolClass => schoolClassWhoNotStudiedSubject.All(schoolClass2 => schoolClass2.Id != schoolClass.Id));
                     List<SchoolClass> except = result2.ToList();
 
-                    return result2;
+                    return result2;*/
 
 
-                    /*return _repositoryManager
+                    return _repositoryManager
                         .SchoolClassRepo
                         .FindAll()
-                        .Except(schoolClassWhoNotStudiedSubject, new SchoolClassComparer());*/
+                        .Except(schoolClassWhoNotStudiedSubject, new SchoolClassComparer());
 
 
                    

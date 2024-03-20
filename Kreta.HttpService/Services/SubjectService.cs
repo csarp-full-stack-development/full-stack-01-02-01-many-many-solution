@@ -12,7 +12,7 @@ namespace Kreta.HttpService.Services
         {
         }
 
-        public async Task<List<Subject>> SelectAllSubjectWithSchoolClassAsync()
+        public async Task<List<Subject>> GetAllSubjectWithSchoolClassAsync()
         {
             if (_httpClient is not null)
             {
@@ -20,6 +20,28 @@ namespace Kreta.HttpService.Services
                 {
 
                     List<SubjectDto>? resultDto = await _httpClient.GetFromJsonAsync<List<SubjectDto>>($"api/Subject/withschoolclass");
+                    if (resultDto is not null)
+                    {
+                        List<Subject> result = resultDto.Select(entity => _assambler.ToModel(entity)).ToList();
+                        return result;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
+            }
+            return new List<Subject>();
+        }
+
+        public async Task<List<Subject>> GetSubjectWhoNotStudySchoolClass(Guid schoolClassId)
+        {
+            if (_httpClient is not null)
+            {
+                try
+                {
+
+                    List<SubjectDto>? resultDto = await _httpClient.GetFromJsonAsync<List<SubjectDto>>($"api/Subject/wherenostudyschoolclass/{schoolClassId}");
                     if (resultDto is not null)
                     {
                         List<Subject> result = resultDto.Select(entity => _assambler.ToModel(entity)).ToList();
