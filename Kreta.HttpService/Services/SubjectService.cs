@@ -8,8 +8,10 @@ namespace Kreta.HttpService.Services
 {
     public class SubjectService : BaseService<Subject, SubjectDto>, ISubjectService
     {
-        public SubjectService(IHttpClientFactory? httpClientFactory, SubjectAssambler assambler) : base(httpClientFactory, assambler)
+        private readonly SchoolClassAssambler? _schoolClassAssambler;
+        public SubjectService(IHttpClientFactory? httpClientFactory, SubjectAssambler assambler, SchoolClassAssambler schoolClassAssambler) : base(httpClientFactory, assambler)
         {
+            _schoolClassAssambler = schoolClassAssambler;
         }
 
         public async Task<List<Subject>> GetAllSubjectWithSchoolClassAsync()
@@ -34,17 +36,17 @@ namespace Kreta.HttpService.Services
             return new List<Subject>();
         }
 
-        public async Task<List<Subject>> GetSubjectWhoNotStudySchoolClass(Guid schoolClassId)
+        public async Task<List<SchoolClass>> GetSchoolClassWhoNotStudyingSubject(Guid subjectID)
         {
-            if (_httpClient is not null)
+            if (_httpClient is not null && _schoolClassAssambler is not null)
             {
                 try
                 {
 
-                    List<SubjectDto>? resultDto = await _httpClient.GetFromJsonAsync<List<SubjectDto>>($"api/Subject/wherenostudyschoolclass/{schoolClassId}");
+                    List<SchoolClassDto>? resultDto = await _httpClient.GetFromJsonAsync<List<SchoolClassDto>>($"api/Subject/whonotstudyingsubject/{subjectID}");
                     if (resultDto is not null)
                     {
-                        List<Subject> result = resultDto.Select(entity => _assambler.ToModel(entity)).ToList();
+                        List<SchoolClass> result = resultDto.Select(entity => _schoolClassAssambler.ToModel(entity)).ToList();
                         return result;
                     }
                 }
@@ -53,7 +55,7 @@ namespace Kreta.HttpService.Services
                     Debug.WriteLine(ex.Message);
                 }
             }
-            return new List<Subject>();
+            return new List<SchoolClass>();
         }
     }
 }

@@ -74,6 +74,7 @@ namespace Kreta.Backend.Extensions
             services.AddScoped<PublicSpaceAssambler>();
             services.AddScoped<SchoolClassAssambler>();
             services.AddScoped<TypeOfEducationAssambler>();
+            services.AddScoped<SchoolClassAssambler>();
 
             services.AddScoped<SchoolClassSubjectsAssambler>();
         }
@@ -81,6 +82,8 @@ namespace Kreta.Backend.Extensions
         public static void ConfigureServices(this IServiceCollection services)
         {
             services.AddScoped<ISubjectManagmentService,SubjectManagmentService>();
+            services.AddScoped<ISchoolClassManagmentService, SchoolClassManagmentService>();
         }
     }
 }
+

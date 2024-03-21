@@ -42,11 +42,11 @@ namespace Kreta.Desktop.ViewModels.SchoolClasses
         }
 
         [RelayCommand]
-        private async Task GetSubjectsWhoNotStudySchoolClass()
+        private async Task GetSubjectNotStudiedInTheSchoolClass()
         {
-            if (_subjectService is not null && SelectedSchoolClass.HasId)
+            if (_schoolClassService is not null && SelectedSchoolClass.HasId)
             {
-                List<Subject> subjects = await _subjectService.GetSubjectWhoNotStudySchoolClass(SelectedSchoolClass.Id);
+                List<Subject> subjects = await _schoolClassService.GetSubjectNotStudiedInTheSchoolClass(SelectedSchoolClass.Id);
                 SubjectWhoNotStudySchoolClass = new ObservableCollection<Subject>(subjects);
             }
         }

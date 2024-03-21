@@ -13,22 +13,23 @@ namespace Kreta.Backend.Controllers
     [Route("api/[controller]")]
     public class SchoolClassController : BaseController<SchoolClass, SchoolClassDto>
     {
-        private readonly ISchoolClassRepo _repo;
-       
-        public SchoolClassController(SchoolClassAssambler assambler, ISchoolClassRepo repo) : base(assambler, repo)
+        private readonly ISchoolClassRepo? _schoolClassRepo;
+        private readonly ISchoolClassManagmentService? _schoolClassManagmentService;
+        public SchoolClassController(ISchoolClassManagmentService? schoolClassManagmentService, SchoolClassAssambler assambler, ISchoolClassRepo repo) : base(assambler, repo)
         {
-            _repo = repo;
+            _schoolClassRepo = repo;
+            _schoolClassManagmentService = schoolClassManagmentService;
         }
 
         [HttpGet("withsubjects")]
         public async Task<IActionResult> SelectSchoolClassWithSubjects()
         {
-            List<SchoolClass> schoolClasses = new List<SchoolClass>();
-            if (_repo is not null)
+            List<SchoolClass> schoolClasses = new();
+            if (_schoolClassRepo is not null)
             {
                 try
                 {
-                    List<SchoolClass> result = await _repo.SelectSchoolClassesWithSubjects().ToListAsync();
+                    List<SchoolClass> result = await _schoolClassRepo.SelectSchoolClassesWithSubjects().ToListAsync();
                     return Ok(result.Select(schoolClass => schoolClass.ToDto()));
                 }
                 catch (Exception ex)
@@ -39,6 +40,25 @@ namespace Kreta.Backend.Controllers
             return BadRequest("Az adatok elérhetetlenek!");
         }
 
-
+        [HttpGet("notstudiedintheschoolclass/{subjectId}")]
+        public async Task<IActionResult> SelectSubjectNotStudiedInTheSchoolClass(Guid subjectId)
+        {
+            List<SchoolClass> schoolClasses = new();
+            if (_schoolClassManagmentService is not null)
+            {
+                try
+                {
+                    List<Subject> result = await _schoolClassManagmentService
+                        .SelectSubjectNoStudiedInTheSchoolClass(subjectId)
+                        .ToListAsync();
+                    return Ok(result.Select(subject => subject.ToDto()));
+                }
+                catch (Exception ex)
+                {
+                    await Console.Out.WriteLineAsync(ex.Message);
+                }
+            }
+            return BadRequest("Az adatok elérhetetlenek!");
+        }
     }
 }

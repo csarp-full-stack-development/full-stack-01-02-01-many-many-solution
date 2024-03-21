@@ -13,9 +13,9 @@ namespace Kreta.Backend.Controllers
     [Route("api/[controller]")]
     public class SubjectController : BaseController<Subject, SubjectDto>
     {
-        private readonly ISubjectRepo _subjectRepo;
+        private readonly ISubjectRepo? _subjectRepo;
         private readonly ISubjectManagmentService? _subjectManagmentService;
-        public SubjectController(ISubjectManagmentService subjectManagmentService, SubjectAssambler assambler, ISubjectRepo repo) : base(assambler, repo)
+        public SubjectController(ISubjectManagmentService? subjectManagmentService, SubjectAssambler assambler, ISubjectRepo repo) : base(assambler, repo)
         {
             _subjectRepo = repo;
             _subjectManagmentService = subjectManagmentService;
@@ -40,8 +40,8 @@ namespace Kreta.Backend.Controllers
             return BadRequest("Az adatok elérhetetlenek!");
         }
 
-        [HttpGet("wherenostudysubject/{subjectId}")]
-        public async Task<IActionResult> SelectSchoolClassWhoNotStudiedSubject(Guid subjectId)
+        [HttpGet("notstudiedintheschoolclass/{subjectId}")]
+        public async Task<IActionResult> SelectSchoolClassWhoNotStudyingSubject(Guid subjectId)
         {
             List<SchoolClass> schoolClasses = new List<SchoolClass>();
             if (_subjectManagmentService is not null)
@@ -49,7 +49,7 @@ namespace Kreta.Backend.Controllers
                 try
                 {
                     List<SchoolClass> result = await _subjectManagmentService
-                        .SelectSchoolClassWhoNotStudiedSubject(subjectId)
+                        .SelectSchoolClassWhoNotStudyingSubject(subjectId)
                         .ToListAsync();
                     return Ok(result.Select(schoolClass => schoolClass.ToDto()));
                 }
