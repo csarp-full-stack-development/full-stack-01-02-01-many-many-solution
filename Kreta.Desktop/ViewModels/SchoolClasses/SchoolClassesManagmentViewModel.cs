@@ -51,6 +51,13 @@ namespace Kreta.Desktop.ViewModels.SchoolClasses
             }
         }
 
+        [RelayCommand]
+        private async Task MoveSubjectToNotStudiedInTheSchoolClass()
+        {
+            Guid schoolClassId = SelectedSchoolClass.Id;
+
+        }
+
         private async Task UpdateView()
         {
             if (_schoolClassService!=null)

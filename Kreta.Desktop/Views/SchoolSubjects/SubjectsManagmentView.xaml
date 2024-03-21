@@ -81,7 +81,11 @@
             </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <Label Grid.Row="7" Grid.Column="3" VerticalAlignment="Bottom">Tantárgyat nem tanuló diákok:</Label>
+        <Label Grid.Row="6" Grid.Column="3" VerticalAlignment="Bottom">Tantárgyat nem tanuló diákok:</Label>
+        <StackPanel Grid.Row="7" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Margin="2 2 2 2" FontFamily="Segoe UI Symbol" MinWidth="40" Content="&#xE1FD;"></Button>
+            <Button Margin="2 2 2 2" FontFamily="Segoe UI Symbol" MinWidth="40" Content="&#xE110;"></Button>
+        </StackPanel>
         <ListBox Grid.Row="8" Grid.Column="3"
                  Margin="10 2 10 10"
                  ItemsSource="{Binding SchoolClassesWhoNotStudySubject}"
