@@ -15,8 +15,8 @@ namespace Kreta.Desktop.ViewModels.SchoolClasses
         private ISchoolClassService? _schoolClassService;
         private ISubjectService? _subjectService { get; set; }
         
-        [ObservableProperty]
-        private SchoolClass _selectedSchoolClass = new SchoolClass();
+        [ObservableProperty] private SchoolClass? _selectedSchoolClass = new SchoolClass();
+        [ObservableProperty] private Subject? _selectedSubject = new Subject();
 
         [ObservableProperty]
         private ObservableCollection<SchoolClass> _schoolClasses = new ObservableCollection<SchoolClass>();
@@ -44,7 +44,9 @@ namespace Kreta.Desktop.ViewModels.SchoolClasses
         [RelayCommand]
         private async Task GetSubjectNotStudiedInTheSchoolClass()
         {
-            if (_schoolClassService is not null && SelectedSchoolClass.HasId)
+            if (_schoolClassService is not null && 
+                SelectedSchoolClass is not null &&
+                SelectedSchoolClass.HasId)
             {
                 List<Subject> subjects = await _schoolClassService.GetSubjectNotStudiedInTheSchoolClass(SelectedSchoolClass.Id);
                 SubjectWhoNotStudySchoolClass = new ObservableCollection<Subject>(subjects);
@@ -54,7 +56,13 @@ namespace Kreta.Desktop.ViewModels.SchoolClasses
         [RelayCommand]
         private async Task MoveSubjectToNotStudiedInTheSchoolClass()
         {
-            Guid schoolClassId = SelectedSchoolClass.Id;
+            if (SelectedSchoolClass is not null)
+            {             
+                Guid schoolClassId= SelectedSchoolClass.Id;
+                Guid subjectId = SelectedSubject.Id;
+
+            }
+
 
         }
 

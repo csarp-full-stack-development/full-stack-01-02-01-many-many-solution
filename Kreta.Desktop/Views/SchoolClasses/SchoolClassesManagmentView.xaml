@@ -85,7 +85,8 @@
         </ListBox>
         <Label Margin="2 2 2 2" Grid.Row="2" Grid.Column="2">Az osztály által tanult tantárgyak:</Label>
         <ListBox Margin="2 2 2 2" Grid.Row="3" Grid.Column="3" Grid.RowSpan="4"
-                 ItemsSource="{Binding SelectedSchoolClass.SchoolClassSubjects}">
+                 ItemsSource="{Binding SelectedSchoolClass.SchoolClassSubjects}"
+                 SelectedItem="{Binding SelectedSubject}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
