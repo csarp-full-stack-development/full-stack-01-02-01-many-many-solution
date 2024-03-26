@@ -1,5 +1,7 @@
 ﻿using Kreta.Backend.Repos.Managers;
 using Kreta.Shared.Models;
+using Kreta.Shared.Models.SwitchTable;
+using Kreta.Shared.Responses;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.ObjectModel;
 
@@ -59,12 +61,21 @@ namespace Kreta.Backend.Services
                     Console.WriteLine(ex.Message);
                 }
             }
-            return new Collection<SchoolClass>().AsQueryable();
+            return new List<SchoolClass>().AsQueryable(); 
+            //new Collection<SchoolClass>().AsQueryable();
         }
 
-        public Task MoveSubjectToNotStudiedInTheSchoolClass(Guid subjectId, Guid schoolClassId)
+        public async Task<ControllerResponse> MoveSubjectToNotStudiedInTheSchoolClassAsync(Guid subjectId, Guid schoolClassId)
         {
-            return Task.CompletedTask;
+            if (_repositoryManager is not null && _repositoryManager.SchoolClassSubjectsRepo is not null)
+            {
+                SchoolClassSubjects? schoolClassSubjectToMove = _repositoryManager.SchoolClassSubjectsRepo.FindByCondition(schoolClassSubjects => schoolClassSubjects.SchoolClassId == schoolClassId && schoolClassSubjects.SubjectId == subjectId).FirstOrDefault();
+                if (schoolClassSubjectToMove != null)
+                {
+                    return await _repositoryManager.SchoolClassSubjectsRepo.DeleteAsync(schoolClassSubjectToMove.Id);
+                }
+            }
+            return new ControllerResponse();
         }
     }
 }

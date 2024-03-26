@@ -29,6 +29,8 @@ namespace Kreta.Desktop.Extensions
             services.AddScoped<ISubjectTypeService, SubjectTypeService>();
             services.AddScoped<ITypeOfEducationService, TypleOfEducationService>();
 
+            services.AddScoped<ISchoolClassSubjectsService, SchoolClassSubjectsService>();
+
         }
 
         public static void ConfigureAssamblers(this IServiceCollection services)
@@ -44,7 +46,7 @@ namespace Kreta.Desktop.Extensions
             services.AddScoped<PublicSpaceAssambler>();
             services.AddScoped<SchoolClassAssambler>();
             services.AddScoped<TypeOfEducationAssambler>();
-            
+            services.AddScoped<SchoolClassSubjectsAssambler>();
         }
     }
 }

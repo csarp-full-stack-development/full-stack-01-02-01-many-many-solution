@@ -2,7 +2,10 @@
 using CommunityToolkit.Mvvm.Input;
 using Kreta.Desktop.ViewModels.Base;
 using Kreta.HttpService.Services;
+using Kreta.Shared.Dtos;
 using Kreta.Shared.Models;
+using Kreta.Shared.Models.SwitchTable;
+using Kreta.Shared.Responses;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,10 +16,11 @@ namespace Kreta.Desktop.ViewModels.SchoolClasses
     public partial class SchoolClassesManagmentViewModel : BaseViewModel
     {
         private ISchoolClassService? _schoolClassService;
-        private ISubjectService? _subjectService { get; set; }
+        private ISubjectService? _subjectService;
+        private ISchoolClassSubjectsService? _schoolClassSubjectsService;
         
         [ObservableProperty] private SchoolClass? _selectedSchoolClass = new SchoolClass();
-        [ObservableProperty] private Subject? _selectedSubject = new Subject();
+        [ObservableProperty] private SchoolClassSubjects? _selectedSchoolClassSubjects = new SchoolClassSubjects();
 
         [ObservableProperty]
         private ObservableCollection<SchoolClass> _schoolClasses = new ObservableCollection<SchoolClass>();
@@ -27,10 +31,12 @@ namespace Kreta.Desktop.ViewModels.SchoolClasses
         {            
         }
         public SchoolClassesManagmentViewModel(ISchoolClassService schoolClassService,
-                                               ISubjectService subjectService)
+                                               ISubjectService subjectService,
+                                               ISchoolClassSubjectsService schoolClassSubjectsService)
         {
             _schoolClassService = schoolClassService;
             _subjectService = subjectService;
+            _schoolClassSubjectsService = schoolClassSubjectsService;
         }
 
         public string Title { get; set; } = "Osztályok kezelése";
@@ -56,11 +62,11 @@ namespace Kreta.Desktop.ViewModels.SchoolClasses
         [RelayCommand]
         private async Task MoveSubjectToNotStudiedInTheSchoolClass()
         {
-            if (SelectedSchoolClass is not null)
+            if (SelectedSchoolClassSubjects is not null && _schoolClassSubjectsService is not null)
             {             
-                Guid schoolClassId= SelectedSchoolClass.Id;
-                Guid subjectId = SelectedSubject.Id;
-
+                ControllerResponse response = await _schoolClassSubjectsService.MoveSubjectToNotStudiedInTheSchoolClass(SelectedSchoolClassSubjects);
+                if (response.IsSuccess)
+                    await UpdateView();
             }
 
 

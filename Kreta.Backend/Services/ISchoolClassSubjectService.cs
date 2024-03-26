@@ -1,4 +1,5 @@
 ﻿using Kreta.Shared.Models;
+using Kreta.Shared.Responses;
 
 namespace Kreta.Backend.Services
 {
@@ -6,6 +7,6 @@ namespace Kreta.Backend.Services
     {
         public IQueryable<Subject> SelectSubjectNoStudiedInTheSchoolClass(Guid schoolClassId);
         public IQueryable<SchoolClass> SelectSchoolClassWhoNotStudyingSubject(Guid subjectId);
-        public Task MoveSubjectToNotStudiedInTheSchoolClass(Guid subjectId, Guid schoolClassId);
+        public Task<ControllerResponse> MoveSubjectToNotStudiedInTheSchoolClassAsync(Guid subjectId, Guid schoolClassId);
     }
 }

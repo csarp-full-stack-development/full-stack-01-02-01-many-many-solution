@@ -17,15 +17,5 @@ namespace Kreta.Backend.Repos.SwitchTables
             return FindAll().Include(schoolClassSubjects => schoolClassSubjects.Subject)
                             .Include(SchoolClassSubjects => SchoolClassSubjects.SchoolClass);
         }
-
-        public async ControllerResponse MoveSubjectToNotStudiedInTheSchoolClass(Guid schoolClassId, Guid subjectID)
-        {
-            SchoolClassSubjects? schoolClassSubject = FindByCondition(schoolClassSubjects => schoolClassSubjects.SchoolClassId == schoolClassId && schoolClassSubjects.SubjectId==subjectID).FirstOrDefault();
-            if (schoolClassSubject is not null) 
-            {
-                await 
-            }
-            
-        }
     }
 }

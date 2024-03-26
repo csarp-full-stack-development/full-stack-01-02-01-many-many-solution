@@ -14,11 +14,11 @@ namespace Kreta.Backend.Controllers
     public class SubjectController : BaseController<Subject, SubjectDto>
     {
         private readonly ISubjectRepo? _subjectRepo;
-        private readonly ISubjectManagmentService? _subjectManagmentService;
-        public SubjectController(ISubjectManagmentService? subjectManagmentService, SubjectAssambler assambler, ISubjectRepo repo) : base(assambler, repo)
+        private readonly ISchoolClassSubjectService? _schoolClassSubjectService;
+        public SubjectController(ISchoolClassSubjectService? schoolClassSubjectService, SubjectAssambler assambler, ISubjectRepo repo) : base(assambler, repo)
         {
             _subjectRepo = repo;
-            _subjectManagmentService = subjectManagmentService;
+            _schoolClassSubjectService = schoolClassSubjectService;
         }
 
         [HttpGet("withschoolclass")]
@@ -44,11 +44,11 @@ namespace Kreta.Backend.Controllers
         public async Task<IActionResult> SelectSchoolClassWhoNotStudyingSubject(Guid subjectId)
         {
             List<SchoolClass> schoolClasses = new List<SchoolClass>();
-            if (_subjectManagmentService is not null)
+            if (_schoolClassSubjectService is not null)
             {
                 try
                 {
-                    List<SchoolClass> result = await _subjectManagmentService
+                    List<SchoolClass> result = await _schoolClassSubjectService
                         .SelectSchoolClassWhoNotStudyingSubject(subjectId)
                         .ToListAsync();
                     return Ok(result.Select(schoolClass => schoolClass.ToDto()));
