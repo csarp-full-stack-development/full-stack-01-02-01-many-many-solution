@@ -3,7 +3,6 @@ using Kreta.Shared.Models;
 using Kreta.Shared.Models.SwitchTable;
 using Kreta.Shared.Responses;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.ObjectModel;
 
 namespace Kreta.Backend.Services
 {
@@ -33,7 +32,7 @@ namespace Kreta.Backend.Services
                     .Where(subject => subjectStudiedInTheSchoolClass.All(studiedInTheClass => studiedInTheClass != null && studiedInTheClass.Id != subject.Id));
                 return result;
             }
-            return Enumerable.Empty<Subject>().AsQueryable().AsNoTracking();
+            return _repositoryManager?.SubjectRepo?.GetEmpty() ?? throw new ArgumentException($"A {nameof(SchoolClass)} adatbázis tábla nem elérhető!");
         }
 
         public IQueryable<SchoolClass> SelectSchoolClassWhoNotStudyingSubject(Guid subjectId)
@@ -61,8 +60,7 @@ namespace Kreta.Backend.Services
                     Console.WriteLine(ex.Message);
                 }
             }
-            return new List<SchoolClass>().AsQueryable(); 
-            //new Collection<SchoolClass>().AsQueryable();
+            return _repositoryManager?.SchoolClassRepo?.GetEmpty() ?? throw new ArgumentException($"A {nameof(SchoolClass)} adatbázis tábla nem elérhető!");
         }
 
         public async Task<ControllerResponse> MoveSubjectToNotStudiedInTheSchoolClassAsync(Guid subjectId, Guid schoolClassId)
