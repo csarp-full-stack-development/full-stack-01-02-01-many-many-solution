@@ -5,7 +5,7 @@ namespace Kreta.Backend.Repos
 {
     public interface IRepositoryBase<T>
     {
-        public IQueryable<T> GetEmpty();
+        IQueryable<T> GetEmpty();
         IQueryable<T> FindAll();
         IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression);
         Task<ControllerResponse> CreateAsync(T entity);

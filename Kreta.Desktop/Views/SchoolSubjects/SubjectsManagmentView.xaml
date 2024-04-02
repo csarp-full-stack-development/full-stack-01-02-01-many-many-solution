@@ -66,7 +66,7 @@
                  SelectedItem="{Binding SelectedSubject}">
                  <behaviors:Interaction.Triggers>
                     <behaviors:EventTrigger EventName="SelectionChanged">
-                        <behaviors:InvokeCommandAction Command="{Binding GetSchoolClassWhoNotStudySubjectCommand}" />
+                    <behaviors:InvokeCommandAction Command="{Binding GetSchoolClassWhoNotStudySubjectCommand}" />
                     </behaviors:EventTrigger>
                 </behaviors:Interaction.Triggers>
         </ListBox>

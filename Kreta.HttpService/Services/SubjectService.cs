@@ -43,7 +43,7 @@ namespace Kreta.HttpService.Services
                 try
                 {
 
-                    List<SchoolClassDto>? resultDto = await _httpClient.GetFromJsonAsync<List<SchoolClassDto>>($"api/Subject/notstudiedintheschoolclass/{subjectID}");
+                    List<SchoolClassDto>? resultDto = await _httpClient.GetFromJsonAsync<List<SchoolClassDto>>($"api/Subject/notstudyingintheschoolclass/{subjectID}");
                     if (resultDto is not null)
                     {
                         List<SchoolClass> result = resultDto.Select(entity => _schoolClassAssambler.ToModel(entity)).ToList();

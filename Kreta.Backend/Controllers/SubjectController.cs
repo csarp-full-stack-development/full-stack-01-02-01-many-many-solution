@@ -40,7 +40,7 @@ namespace Kreta.Backend.Controllers
             return BadRequest("Az adatok elérhetetlenek!");
         }
 
-        [HttpGet("notstudiedintheschoolclass/{subjectId}")]
+        [HttpGet("notstudyingintheschoolclass/{subjectId}")]
         public async Task<IActionResult> SelectSchoolClassWhoNotStudyingSubject(Guid subjectId)
         {
             List<SchoolClass> schoolClasses = new List<SchoolClass>();

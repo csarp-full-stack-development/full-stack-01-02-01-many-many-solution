@@ -11,7 +11,7 @@ namespace Kreta.Backend.Services
         private readonly IRepositoryManager? _repositoryManager;
         public SchoolClassSubjectService(IRepositoryManager? repositoryManager)
         {
-            repositoryManager = _repositoryManager;
+            _repositoryManager = repositoryManager;
         }
 
         public IQueryable<Subject> SelectSubjectNoStudiedInTheSchoolClass(Guid schoolClassId)
