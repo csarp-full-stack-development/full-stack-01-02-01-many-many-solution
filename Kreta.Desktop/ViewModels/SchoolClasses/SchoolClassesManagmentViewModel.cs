@@ -9,6 +9,7 @@ using Kreta.Shared.Responses;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Kreta.Desktop.ViewModels.SchoolClasses
@@ -19,14 +20,14 @@ namespace Kreta.Desktop.ViewModels.SchoolClasses
         private ISubjectService? _subjectService;
         private ISchoolClassSubjectsService? _schoolClassSubjectsService;
         
-        [ObservableProperty] private SchoolClass? _selectedSchoolClass = new SchoolClass();
-        [ObservableProperty] private SchoolClassSubjects? _selectedSchoolClassSubjects = new SchoolClassSubjects();
+        [ObservableProperty] private SchoolClass? _selectedSchoolClass = new();
+        [ObservableProperty] private SchoolClassSubjects? _selectedSchoolClassSubjects = new();
 
-        [ObservableProperty]
-        private ObservableCollection<SchoolClass> _schoolClasses = new ObservableCollection<SchoolClass>();
+        [ObservableProperty] private ObservableCollection<SchoolClass>? _schoolClasses = new() ;
 
-        [ObservableProperty]
-        private ObservableCollection<Subject> _subjectWhoNotStudySchoolClass = new ObservableCollection<Subject>();
+        [ObservableProperty] private ObservableCollection<Subject>? _subjectWhoNotStudySchoolClass = new();
+        [ObservableProperty] private Subject? _selectedSubjectWhoNotStudySchoolClass = new();
+
         public SchoolClassesManagmentViewModel()
         {            
         }
@@ -50,13 +51,7 @@ namespace Kreta.Desktop.ViewModels.SchoolClasses
         [RelayCommand]
         private async Task GetSubjectNotStudiedInTheSchoolClass()
         {
-            if (_schoolClassService is not null && 
-                SelectedSchoolClass is not null &&
-                SelectedSchoolClass.HasId)
-            {
-                List<Subject> subjects = await _schoolClassService.GetSubjectNotStudiedInTheSchoolClass(SelectedSchoolClass.Id);
-                SubjectWhoNotStudySchoolClass = new ObservableCollection<Subject>(subjects);
-            }
+            await UpdateSubjectNotStudiedInTheSchoolClass();
         }
 
         [RelayCommand]
@@ -64,20 +59,50 @@ namespace Kreta.Desktop.ViewModels.SchoolClasses
         {
             if (SelectedSchoolClassSubjects is not null && _schoolClassSubjectsService is not null)
             {             
-                ControllerResponse response = await _schoolClassSubjectsService.MoveSubjectToNotStudiedInTheSchoolClass(SelectedSchoolClassSubjects);
+                ControllerResponse response = await _schoolClassSubjectsService.MoveToNotStudyingAsync(SelectedSchoolClassSubjects);
                 if (response.IsSuccess)
                     await UpdateView();
             }
+        }
 
-
+        [RelayCommand]
+        private async Task MoveSubjectToStudiedInTheSchoolClass()
+        {
+            if (_schoolClassSubjectsService is not null && SelectedSchoolClass is not null && SelectedSubjectWhoNotStudySchoolClass is not null)
+            {
+                SchoolClassSubjects newSchoolClassSubject = new SchoolClassSubjects()
+                {
+                    SchoolClassId = SelectedSchoolClass.Id,
+                    SubjectId = SelectedSubjectWhoNotStudySchoolClass.Id
+                };
+                ControllerResponse response = await _schoolClassSubjectsService.MoveToStudyingAsync(newSchoolClassSubject);
+                if (response.IsSuccess)
+                    await UpdateView();
+            }
         }
 
         private async Task UpdateView()
         {
-            if (_schoolClassService!=null)
+            await UpdateSubjectNotStudiedInTheSchoolClass();
+            await UpdateSchoolClassWithSubject();
+        }
+
+        private async Task UpdateSchoolClassWithSubject()
+        {
+            if (_schoolClassService != null)
             {
-                List<SchoolClass> schoolClasses = await _schoolClassService.GetAllSchoolClassWithSubjectsAsync();
-                SchoolClasses =new ObservableCollection<SchoolClass>(schoolClasses);
+                SchoolClass? savedSchoolClass = SelectedSchoolClass is not null ? SelectedSchoolClass : new();
+                List<SchoolClass>? schoolClasses = await _schoolClassService.GetAllSchoolClassWithSubjectsAsync();
+                SchoolClasses = new ObservableCollection<SchoolClass>(schoolClasses);
+                SelectedSchoolClass = schoolClasses.FirstOrDefault(schoolClass => schoolClass.Id == savedSchoolClass.Id);
+            }
+        }
+        private async Task UpdateSubjectNotStudiedInTheSchoolClass()
+        {
+            if (_schoolClassService is not null && SelectedSchoolClass is not null && SelectedSchoolClass.HasId)
+            {
+                List<Subject>? subjects = await _schoolClassService.GetSubjectNotStudiedInTheSchoolClass(SelectedSchoolClass.Id);
+                SubjectWhoNotStudySchoolClass = new ObservableCollection<Subject>(subjects);
             }
         }
     }

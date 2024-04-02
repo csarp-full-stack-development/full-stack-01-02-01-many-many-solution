@@ -62,18 +62,5 @@ namespace Kreta.Backend.Services
             }
             return _repositoryManager?.SchoolClassRepo?.GetEmpty() ?? throw new ArgumentException($"A {nameof(SchoolClass)} adatbázis tábla nem elérhető!");
         }
-
-        public async Task<ControllerResponse> MoveSubjectToNotStudiedInTheSchoolClassAsync(Guid subjectId, Guid schoolClassId)
-        {
-            if (_repositoryManager is not null && _repositoryManager.SchoolClassSubjectsRepo is not null)
-            {
-                SchoolClassSubjects? schoolClassSubjectToMove = _repositoryManager.SchoolClassSubjectsRepo.FindByCondition(schoolClassSubjects => schoolClassSubjects.SchoolClassId == schoolClassId && schoolClassSubjects.SubjectId == subjectId).FirstOrDefault();
-                if (schoolClassSubjectToMove != null)
-                {
-                    return await _repositoryManager.SchoolClassSubjectsRepo.DeleteAsync(schoolClassSubjectToMove.Id);
-                }
-            }
-            return new ControllerResponse();
-        }
     }
 }

@@ -42,7 +42,7 @@ namespace Kreta.HttpService.Services
             return new List<SchoolClassSubjects>();
         }
 
-        public async Task<ControllerResponse> MoveSubjectToNotStudiedInTheSchoolClass(SchoolClassSubjects schoolClassSubjects)
+        public async Task<ControllerResponse> MoveToNotStudyingAsync(SchoolClassSubjects schoolClassSubjects)
         {
             ControllerResponse defaultResponse = new();
             if (_httpClient is not null)
@@ -50,7 +50,7 @@ namespace Kreta.HttpService.Services
                 try
                 {
 
-                    HttpResponseMessage httpResponse = await _httpClient.PostAsJsonAsync($"api/SchoolClassSubjects/MoveSubjectToNotStudiedInTheSchoolClass", _assambler.ToDto(schoolClassSubjects));
+                    HttpResponseMessage httpResponse = await _httpClient.PostAsJsonAsync($"api/SchoolClassSubjects/MoveToNotStudying", _assambler.ToDto(schoolClassSubjects));
                     if (httpResponse.StatusCode == HttpStatusCode.BadRequest)
                     {
                         string content = await httpResponse.Content.ReadAsStringAsync();
@@ -77,6 +77,45 @@ namespace Kreta.HttpService.Services
                 }
             }
             defaultResponse.ClearAndAddError("A tantárgy áthelyezése az osztály által nem tanult tanátrgyak közé nem lehetséges!");
+            return defaultResponse;
+        }
+
+
+        public async Task<ControllerResponse> MoveToStudyingAsync(SchoolClassSubjects schoolClassSubjects)
+        {
+            ControllerResponse defaultResponse = new();
+            if (_httpClient is not null)
+            {
+                try
+                {
+
+                    HttpResponseMessage httpResponse = await _httpClient.PostAsJsonAsync($"api/SchoolClassSubjects/MoveToStudying", _assambler.ToDto(schoolClassSubjects));
+                    if (httpResponse.StatusCode == HttpStatusCode.BadRequest)
+                    {
+                        string content = await httpResponse.Content.ReadAsStringAsync();
+                        ControllerResponse? response = JsonConvert.DeserializeObject<ControllerResponse>(content);
+                        if (response is null)
+                        {
+                            defaultResponse.ClearAndAddError("A tantárgy áthelyezése az osztály által tanult tanátrgyak közé nem sikerült!");
+                        }
+                        else return response;
+                    }
+                    else if (!httpResponse.IsSuccessStatusCode)
+                    {
+                        httpResponse.EnsureSuccessStatusCode();
+                    }
+                    else
+                    {
+                        return defaultResponse;
+                    }
+                }
+
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
+            }
+            defaultResponse.ClearAndAddError("A tantárgy áthelyezése az osztály által tanult tanátrgyak közé nem lehetséges!");
             return defaultResponse;
         }
     }

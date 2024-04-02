@@ -97,13 +97,17 @@
         </ListBox>
         <StackPanel Grid.Row="7" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button Margin="2 2 2 2" FontFamily="Segoe UI Symbol" MinWidth="40" Content="&#xE1FD;"
-                    Command="{Binding MoveSubjectToNotStudiedInTheSchoolClassCommand}">
+                    Command="{Binding MoveSubjectToNotStudiedInTheSchoolClassCommand}"
+                    >
             </Button>
-            <Button Margin="2 2 2 2" FontFamily="Segoe UI Symbol" MinWidth="40" Content="&#xE110;"></Button>
+            <Button Margin="2 2 2 2" FontFamily="Segoe UI Symbol" MinWidth="40" Content="&#xE110;"
+                    Command="{Binding MoveSubjectToStudiedInTheSchoolClassCommand}">
+            </Button>
         </StackPanel>
         <Label Grid.Row="8" Grid.Column="3">Osztályt által nem tanult tantárgyak:</Label>
         <ListBox Margin="2 2 2 2" Grid.Row="9" Grid.Column="3"
-                 ItemsSource="{Binding SubjectWhoNotStudySchoolClass}">
+                 ItemsSource="{Binding SubjectWhoNotStudySchoolClass}"
+                 SelectedItem="{Binding SelectedSubjectWhoNotStudySchoolClass}">
         </ListBox>
     </Grid>
 </UserControl>

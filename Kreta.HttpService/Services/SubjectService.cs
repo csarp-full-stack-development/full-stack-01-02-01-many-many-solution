@@ -14,7 +14,7 @@ namespace Kreta.HttpService.Services
             _schoolClassAssambler = schoolClassAssambler;
         }
 
-        public async Task<List<Subject>> GetAllSubjectWithSchoolClassAsync()
+        public async Task<List<Subject>> GetAllSubjectsWithSchoolClassesAsync()
         {
             if (_httpClient is not null)
             {

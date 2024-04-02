@@ -1,4 +1,4 @@
-﻿using Kreta.Backend.Repos;
+﻿using Kreta.Backend.Repos.SwitchTables;
 using Kreta.Backend.Services;
 using Kreta.Shared.Assamblers;
 using Kreta.Shared.Dtos;
@@ -42,17 +42,34 @@ namespace Kreta.Backend.Controllers
             return BadRequest("Az adatok elérhetetlenek!");
         }
 
-        [HttpPost("MoveSubjectToNotStudiedInTheSchoolClass")]
-        public async Task<ActionResult> MoveSubjectToNotStudiedInTheSchoolClass(SchoolClassSubjectsDto schoolClassSubjectsDto)
+        [HttpPost("MoveToNotStudying")]
+        public async Task<ActionResult> MoveToNotStudyingAsync(SchoolClassSubjectsDto schoolClassSubjectsDto)
         {
             ControllerResponse response = new();
             if (_schoolClassSubjectService is not null)
             {
-                response = await _schoolClassSubjectService.MoveSubjectToNotStudiedInTheSchoolClassAsync(schoolClassSubjectsDto.SubjectId, schoolClassSubjectsDto.SchoolClassId);
+                response = await _repo.MoveToNotStudyingSchoolClassSubjectAsync(schoolClassSubjectsDto.ToModel());
                 if (response.HasError)
                 {
                     Console.WriteLine(response.Error);
                     response.ClearAndAddError("A tantárgy áthelyezése az osztály által nem tanult tanátrgyak közé nem sikerült!");
+                    return BadRequest(response);
+                }
+            }
+            return Ok(response);
+        }
+
+        [HttpPost("MoveToStudying")]
+        public async Task<ActionResult> MoveToStudyingAsync(SchoolClassSubjectsDto schoolClassSubjectsDto)
+        {
+            ControllerResponse response = new();
+            if (_schoolClassSubjectService is not null)
+            {
+                response = await _repo.MoveToStudyingSchoolClassSubjectAsync(schoolClassSubjectsDto.ToModel());
+                if (response.HasError)
+                {
+                    Console.WriteLine(response.Error);
+                    response.ClearAndAddError("A tantárgy áthelyezése az osztály által tanult tanátrgyak közé nem sikerült!");
                     return BadRequest(response);
                 }
             }

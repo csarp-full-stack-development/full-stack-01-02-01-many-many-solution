@@ -7,6 +7,5 @@ namespace Kreta.Backend.Services
     {
         public IQueryable<Subject> SelectSubjectNoStudiedInTheSchoolClass(Guid schoolClassId);
         public IQueryable<SchoolClass> SelectSchoolClassWhoNotStudyingSubject(Guid subjectId);
-        public Task<ControllerResponse> MoveSubjectToNotStudiedInTheSchoolClassAsync(Guid subjectId, Guid schoolClassId);
     }
 }

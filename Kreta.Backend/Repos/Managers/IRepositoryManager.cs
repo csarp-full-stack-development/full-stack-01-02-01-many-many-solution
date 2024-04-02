@@ -1,4 +1,6 @@
-﻿namespace Kreta.Backend.Repos.Managers
+﻿using Kreta.Backend.Repos.SwitchTables;
+
+namespace Kreta.Backend.Repos.Managers
 {
     public interface IRepositoryManager
     {
