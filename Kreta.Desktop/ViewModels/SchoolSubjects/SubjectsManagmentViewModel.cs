@@ -95,10 +95,11 @@ namespace Kreta.Desktop.ViewModels.SchoolSubjects
         {
             if (_subjectService != null)
             {
-                Subject savedSelectedSubject = SelectedSubject is not null ? SelectedSubject : new();
+                Subject? savedSelectedSubject = SelectedSubject is not null ? SelectedSubject : new();
                 List<Subject> subjects = await _subjectService.GetAllSubjectsWithSchoolClassesAsync();
                 Subjects = new ObservableCollection<Subject>(subjects);
                 SelectedSubject = subjects.FirstOrDefault(subject => subject.Id==savedSelectedSubject.Id);
+                SelectedSubject = SelectedSubject is not null ? SelectedSubject : new();
             }
         }
 
