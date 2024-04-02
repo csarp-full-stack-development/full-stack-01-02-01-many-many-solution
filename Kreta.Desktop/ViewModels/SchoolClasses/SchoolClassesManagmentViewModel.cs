@@ -91,10 +91,10 @@ namespace Kreta.Desktop.ViewModels.SchoolClasses
         {
             if (_schoolClassService != null)
             {
-                SchoolClass? savedSchoolClass = SelectedSchoolClass is not null ? SelectedSchoolClass : new();
+                SchoolClass? storedPreviusSchoolClass = SelectedSchoolClass is not null ? SelectedSchoolClass : new();
                 List<SchoolClass>? schoolClasses = await _schoolClassService.GetAllSchoolClassWithSubjectsAsync();
                 SchoolClasses = new ObservableCollection<SchoolClass>(schoolClasses);
-                SelectedSchoolClass = schoolClasses.FirstOrDefault(schoolClass => schoolClass.Id == savedSchoolClass.Id);
+                SelectedSchoolClass = schoolClasses.FirstOrDefault(schoolClass => schoolClass.Id == storedPreviusSchoolClass.Id);
             }
         }
         private async Task UpdateSubjectNotStudiedInTheSchoolClass()
